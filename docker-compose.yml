@@ -1,0 +1,13 @@
+version: "3.9"
+volumes:
+    backend-data:
+        name: "backend-data"
+        driver: local
+services:
+    backend:
+        build: "./backend"
+        container_name: ms2query-backend
+        ports:
+            - 5050:5000
+        volumes:
+            - ./backend/app:/usr/app
