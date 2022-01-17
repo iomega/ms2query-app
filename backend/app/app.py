@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route('/ping')
 def pong():
-    return "pong"
+    return {"message": "pong"}
 
 @app.route('/run_ms2query')
 def ms2query():
