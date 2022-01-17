@@ -1,10 +1,11 @@
 <script lang="ts">
+import Sidebar from "./Sidebar.svelte";
+
 
 </script>
 
-<div class="sidebar">
-  Sidebar
-</div>
+<Sidebar/>
+
 <div class="content">
   Content
 </div>
@@ -18,23 +19,10 @@
       Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
-  $sidebar-width: 250px;
-
-  .sidebar {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    padding: 20px;
-    width: $sidebar-width;
-    box-sizing: border-box;
-    background-color: #353D40;
-    color: #FFFFFF;
-  }
   .content {
     box-sizing: border-box;
-    margin-left: $sidebar-width;
-    padding: 20px;
+    margin-left: 250px;
+    padding: 30px;
     height: 100vh;
     color: #353D40;
   }
