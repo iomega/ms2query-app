@@ -1,13 +1,16 @@
 <script lang="ts">
+import ApiDebug from "./ApiDebug.svelte";
 import Sidebar from "./Sidebar.svelte";
 
 
 </script>
 
-<Sidebar/>
+<!-- <Sidebar/> -->
 
 <div class="content">
-  Content
+
+    <ApiDebug></ApiDebug>
+
 </div>
 
 <style lang="scss">
@@ -21,7 +24,7 @@ import Sidebar from "./Sidebar.svelte";
 
   .content {
     box-sizing: border-box;
-    margin-left: 250px;
+    // margin-left: 250px;
     padding: 30px;
     height: 100vh;
     color: #353D40;
