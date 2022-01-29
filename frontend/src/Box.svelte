@@ -1,9 +1,9 @@
 <script lang="ts">
-    export let padding= "20px";
+    export let padding = "20px";
 </script>
 
-<div class="box" style={`padding: ${padding};`}>
-    <slot/>
+<div class="box" style="{`padding: ${padding};`}">
+    <slot />
 </div>
 
 <style lang="scss">

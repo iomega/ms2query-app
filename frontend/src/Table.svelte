@@ -1,11 +1,9 @@
 <div class="table">
-    <slot/>
+    <slot />
 </div>
 
 <style lang="scss">
-    
     .table {
         display: grid;
     }
-    
 </style>
