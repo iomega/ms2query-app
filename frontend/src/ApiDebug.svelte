@@ -13,7 +13,7 @@
             : true
     );
 
-    const loadTableData = async () => {
+    const getDataFromApi = async () => {
         const response = await getResults();
         const data = await response.json();
 
@@ -23,6 +23,13 @@
             };
         });
     };
+
+    let files: any[] = [];
+    const getLocalData = async () => {
+        const file = files[0];
+
+        tableItems = JSON.parse(await file.text());
+    };
 </script>
 
 <div>
@@ -31,7 +38,27 @@
     </Box>
 
     <Box>
-        {#if tableItems.length > 0}
+        <div class="upload-area">
+            <div>
+                <label for="get-data-button">Daten von API abfragen: </label>
+                <button
+                    id="get-data-button"
+                    on:click="{() => getDataFromApi()}">
+                    Los geht's!
+                </button>
+            </div>
+            <div>
+                <label for="file-upload">Lokale JSON-Datei laden:</label>
+                <input
+                    id="file-upload"
+                    type="file"
+                    bind:files
+                    on:change="{() => getLocalData()}" />
+            </div>
+        </div>
+    </Box>
+
+    <Box>
             <div class="search-input">
                 <label for="search-input">Suche:</label>
                 <input
@@ -56,11 +83,6 @@
                     <div class="table-data center">{item.cf_subclass}</div>
                 {/each}
             </div>
-        {:else}
-            <button on:click="{() => loadTableData()}">
-                Load Table Data
-            </button>
-        {/if}
     </Box>
 </div>
 
@@ -69,6 +91,11 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
+    }
+
+    .upload-area {
+        display: flex;
+        justify-content: space-around;
     }
 
     .search-input {
