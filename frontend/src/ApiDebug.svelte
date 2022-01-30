@@ -59,30 +59,32 @@
     </Box>
 
     <Box>
-            <div class="search-input">
-                <label for="search-input">Suche:</label>
-                <input
-                    bind:value="{searchKeyword}"
-                    type="text"
-                    id="search-input"
-                    name="search-input" />
-            </div>
+        <div class="search-input">
+            <label for="search-input">Suche:</label>
+            <input
+                bind:value="{searchKeyword}"
+                type="text"
+                id="search-input"
+                name="search-input" />
+        </div>
 
-            <div class="table">
-                <div class="table-head">No.</div>
-                <div class="table-head">smiles</div>
-                <div class="table-head">cf_superclass</div>
-                <div class="table-head">cf_class</div>
-                <div class="table-head">cf_subclass</div>
+        <div class="table">
+            <div class="table-head">No.</div>
+            <div class="table-head">match_parent_mass</div>
+            <div class="table-head">smiles</div>
+            <div class="table-head">cf_superclass</div>
+            <div class="table-head">cf_class</div>
+            <div class="table-head">cf_subclass</div>
 
-                {#each tableItemsSearched as item, index}
-                    <div class="table-data right"><b>{index + 1}</b></div>
-                    <div class="table-data left">{item.smiles}</div>
-                    <div class="table-data center">{item.cf_superclass}</div>
-                    <div class="table-data center">{item.cf_class}</div>
-                    <div class="table-data center">{item.cf_subclass}</div>
-                {/each}
-            </div>
+            {#each tableItemsSearched as item, index}
+                <div class="table-data right"><b>{index + 1}</b></div>
+                <div class="table-data left">{item.match_parent_mass}</div>
+                <div class="table-data left">{item.smiles}</div>
+                <div class="table-data center">{item.cf_superclass}</div>
+                <div class="table-data center">{item.cf_class}</div>
+                <div class="table-data center">{item.cf_subclass}</div>
+            {/each}
+        </div>
     </Box>
 </div>
 
@@ -104,7 +106,7 @@
     }
     .table {
         display: grid;
-        grid-template-columns: auto 1fr 1fr 1fr 1fr;
+        grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr;
         max-height: 80vh;
         overflow: auto;
         // border: 1px solid #003f638a;
