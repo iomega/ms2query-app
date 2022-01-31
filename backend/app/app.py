@@ -4,6 +4,7 @@ from ms2query.ms2library import create_library_object_from_one_dir
 import os
 import csv
 import json
+import datetime
 
 app = Flask(__name__)
 
@@ -43,7 +44,8 @@ def run_ms2query():
     # Create a MS2Library object 
     ms2library = create_library_object_from_one_dir(ms2query_library_files_directory, default_library_file_base_names())
 
-    folder_to_store_results = os.path.join(ms2_spectra_directory, "results")
+    today = datetime.datetime.now()
+    folder_to_store_results = os.path.join(ms2_spectra_directory, today.strftime("%Y%m%d%H%M%S_"+"results"))
 
     # Run library search and analog search on your files. 
     # The results are stored in the specified folder_to_store_results.
