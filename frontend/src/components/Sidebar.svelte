@@ -20,7 +20,6 @@
         bottom: 0;
         left: 0;
         text-align: center;
-        width: 250px;
         box-sizing: border-box;
         background-color: #353d40;
         color: #ffffff;
