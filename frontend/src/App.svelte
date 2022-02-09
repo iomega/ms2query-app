@@ -5,6 +5,7 @@
     import Input from "./components/Input.svelte";
     import { getResults } from "./api/fetch.api";
     import { fade } from "svelte/transition";
+    import Button from "./components/Button.svelte";
 
     let tableItems = [];
     $: console.log("tableItems: ", tableItems);
@@ -49,11 +50,11 @@
                     </h1>
 
                     <div>
-                        <button
+                        <Button
                             id="get-data-button"
                             on:click="{() => getDataFromApi()}">
                             Daten von API abfragen
-                        </button>
+                        </Button>
                     </div>
 
                     <h2>oder</h2>
