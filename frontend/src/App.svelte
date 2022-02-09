@@ -4,6 +4,7 @@
     import ResultsTable from "./components/ResultsTable.svelte";
     import Input from "./components/Input.svelte";
     import { getResults } from "./api/fetch.api";
+    import { fade } from "svelte/transition";
 
     let tableItems = [];
     $: console.log("tableItems: ", tableItems);
@@ -40,33 +41,45 @@
 
     <div class="content">
         <Box>
-            <div class="upload-area">
-                <div>
-                    <label for="get-data-button"
-                        >Daten von API abfragen:
-                    </label>
-                    <button
-                        id="get-data-button"
-                        on:click="{() => getDataFromApi()}">
-                        Los geht's!
-                    </button>
-                </div>
-                <div>
-                    <label for="file-upload">Lokale JSON-Datei laden:</label>
-                    <input
-                        id="file-upload"
-                        type="file"
-                        bind:files
-                        on:change="{() => getLocalData()}" />
-                </div>
-            </div>
-        </Box>
+            {#if tableItems.length === 0}
+                <div class="upload-area">
+                    <h1>
+                        Um Daten anzeigen zu lassen, wählen Sie eine der beiden
+                        Optionen!
+                    </h1>
 
-        <Box>
-            <div class="table-box">
-                <Input bind:value="{searchKeyword}" label="Suche" />
-                <ResultsTable items="{tableItemsSearched}" />
-            </div>
+                    <div>
+                        <button
+                            id="get-data-button"
+                            on:click="{() => getDataFromApi()}">
+                            Daten von API abfragen
+                        </button>
+                    </div>
+
+                    <h2>oder</h2>
+
+                    <div>
+                        <label for="file-upload">
+                            Lokale JSON-Datei laden:
+                        </label>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            bind:files
+                            on:change="{() => getLocalData()}" />
+                    </div>
+                    <div class="no-data-placeholder">
+                        <img
+                            src="../src/assets/Artificial Intelligence_Monochromatic.png"
+                            alt="" />
+                    </div>
+                </div>
+            {:else}
+                <div class="table-box" transition:fade>
+                    <Input bind:value="{searchKeyword}" label="Suche" />
+                    <ResultsTable items="{tableItemsSearched}" />
+                </div>
+            {/if}
         </Box>
     </div>
 </main>
@@ -101,7 +114,18 @@
 
         .upload-area {
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .no-data-placeholder {
+            text-align: center;
+            img {
+                height: 30rem;
+                width: 30rem;
+            }
         }
 
         .table-box {
