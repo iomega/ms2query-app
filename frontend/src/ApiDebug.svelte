@@ -1,6 +1,7 @@
 <script lang="ts">
     import Box from "./Box.svelte";
     import ResultsTable from "./components/ResultsTable.svelte";
+    import Input from "./components/Input.svelte";
     import { getResults } from "./fetch.api";
 
     let tableItems = [];
@@ -60,16 +61,10 @@
     </Box>
 
     <Box>
-        <div class="search-input">
-            <label for="search-input">Suche:</label>
-            <input
-                bind:value="{searchKeyword}"
-                type="text"
-                id="search-input"
-                name="search-input" />
+        <div class="table-box">
+            <Input bind:value="{searchKeyword}" label="Suche" />
+            <ResultsTable items="{tableItemsSearched}" />
         </div>
-
-        <ResultsTable items="{tableItemsSearched}" />
     </Box>
 </div>
 
@@ -85,8 +80,10 @@
         justify-content: space-around;
     }
 
-    .search-input {
-        margin-bottom: 20px;
+    .table-box {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
         text-align: left;
     }
 </style>
