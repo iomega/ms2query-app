@@ -10,7 +10,5 @@
     .box {
         background-color: white;
         border-radius: 12px;
-        margin-bottom: 20px;
-        text-align: center;
     }
 </style>
