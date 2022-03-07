@@ -1,13 +1,52 @@
 version: "3.9"
-volumes:
-    backend-data:
-        name: "backend-data"
-        driver: local
+
 services:
-    backend:
+    flask:
         build: "./backend"
-        container_name: ms2query-backend
+        container_name: flask
+        restart: unless-stopped
+        environment:
+            # APP_ENV: "prod"
+            # APP_DEBUG: "False"
+            # MONGODB_DATABASE: flaskdb
+            # MONGODB_USERNAME: flaskuser
+            # MONGODB_PASSWORD: your_mongodb_password
+            # MONGODB_HOSTNAME: mongodb
+            MONGODB_URI_STRING: mongodb://mongodbuser:mongodbpassword@mongodb:27017/flaskdb?authSource=admin
         ports:
             - 5050:5000
         volumes:
+            # - appdata:/usr/app
             - ./backend/app:/usr/app
+        depends_on:
+            - mongodb
+        networks:
+            - backend
+
+    mongodb:
+        image: mongo:4.0.8
+        container_name: mongodb
+        restart: unless-stopped
+        # command: mongod --auth
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: mongodbuser
+            MONGO_INITDB_ROOT_PASSWORD: mongodbpassword
+            # MONGO_INITDB_DATABASE: flaskdb
+            # MONGODB_DATA_DIR: /data/db
+            # MONDODB_LOG_DIR: /dev/null
+        ports:
+            - '27017:27017'
+        volumes:
+            - mongodbdata:/data/db
+        networks:
+            - backend
+
+volumes:
+    mongodbdata:
+        driver: local
+# appdata:
+#     driver: local
+
+networks:
+    backend:
+        driver: bridge

@@ -1,0 +1,4 @@
+flask
+# ms2query==0.3.0
+pymongo
+flask-pymongo

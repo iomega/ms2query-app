@@ -1,78 +1,61 @@
-from flask import Flask, jsonify
-from ms2query.run_ms2query import download_default_models, default_library_file_base_names, run_complete_folder
-from ms2query.ms2library import create_library_object_from_one_dir
-import os
-import csv
+from flask import Flask, jsonify, request
 import json
-import datetime
+import os
+from flask_pymongo import PyMongo
+# from pymongo import MongoClient
+# from ms2query import run_ms2query
+# from utils import csv2json
 
 app = Flask(__name__)
 
-###########
-### API ###
-###########
+# app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
+# app.config["MONGO_URI"] = os.environ['MONGODB_URI_STRING']
+# client = MongoClient('mongodb://mongodb:27017/')
+mongodb_client = PyMongo(app, uri=os.environ['MONGODB_URI_STRING'])
+db = mongodb_client.db
 
 @app.route('/ping')
 def pong():
-    return {"message": "pong"}
+    return "pong"
 
-@app.route('/run_ms2query')
-def ms2query():
-    response = run_ms2query()
-    return response
+@app.route('/create_todo', methods=['GET', 'POST'])
+def createTodo():
+    # data = request.get_json(force=True)
+    db.todos.insert_one({'title': "todo title"})
 
-@app.route('/get_results/<filename>')
-def results(filename):
-    file = csv2json(r'./ms2_spectra/results/library_search/'+filename+'.csv', r'./ms2_spectra/results/library_search/'+filename+'.json')
-    return file
+    return jsonify(
+        status=True,
+        message='To-do saved successfully!'
+    ), 201
 
+@app.route('/get_todos', methods=['GET', 'POST'])
+def getTodos():
+    # data = request.get_json(force=True)
+    _todos = db.todos.find()
 
-#################
-### FUNCTIONS ###
-#################
+    item = {}
+    data = []
+    for todo in _todos:
+        item = {
+            'id': str(todo['_id']),
+            'title': todo['title']
+        }
+        data.append(item)
 
-def run_ms2query():
-    # Set the location where all your downloaded model files are stored
-    ms2query_library_files_directory = "./ms2query_library_files"
-    # define the folder in which your query spectra are stored.
-    # Accepted formats are: "mzML", "json", "mgf", "msp", "mzxml", "usi" or a pickled matchms object. 
-    ms2_spectra_directory = "./ms2_spectra"
+    return jsonify(
+        status=True,
+        data=data
+    )
 
-    # Downloads pretrained models and files for MS2Query (>10GB download)
-    # download_default_models(ms2query_library_files_directory, default_library_file_base_names())
+# @app.route('/run_ms2query')
+# def ms2query():
+#     response = run_ms2query()
+#     return response
 
-    # Create a MS2Library object 
-    ms2library = create_library_object_from_one_dir(ms2query_library_files_directory, default_library_file_base_names())
-
-    today = datetime.datetime.now()
-    folder_to_store_results = os.path.join(ms2_spectra_directory, today.strftime("%Y%m%d%H%M%S_"+"results"))
-
-    # Run library search and analog search on your files. 
-    # The results are stored in the specified folder_to_store_results.
-    run_complete_folder(ms2library, ms2_spectra_directory, folder_to_store_results)
-
-    return "ms2query DONE"
-
-
-def csv2json(csvFilePath, jsonFilePath):
-    
-    jsonArray = []
-    
-    with open(csvFilePath, encoding='utf-8') as csvf: 
-        csvReader = csv.DictReader(csvf) 
-
-        for row in csvReader: 
-            jsonArray.append(row)
-
-    with open(jsonFilePath, 'w', encoding='utf-8') as jsonf: 
-        jsonString = json.dumps(jsonArray, indent=4)
-        jsonf.write(jsonString)
-
-    return jsonString
-        
-#################
-#################
-#################
+# @app.route('/get_results/<filename>')
+# def results(filename):
+#     file = csv2json(r'./ms2_spectra/results/library_search/'+filename+'.csv', r'./ms2_spectra/results/library_search/'+filename+'.json')
+#     return file
 
 # if __name__ == '__main__':
 #     app.run(host="0.0.0.0", port=5000)

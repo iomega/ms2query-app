@@ -1,13 +1,14 @@
+# see https://docs.docker.com/compose/gettingstarted/
 FROM python:3.8-slim-buster
+
+WORKDIR /usr/app/
 
 ENV FLASK_APP=app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_ENV=development
 
-WORKDIR /usr/app/
-
-RUN pip install --upgrade pip && \
-    pip install flask ms2query
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
