@@ -14,27 +14,27 @@ db = mongodb_client.db
 def pong():
     return "pong"
 
-@app.route('/create_todo', methods=['GET', 'POST'])
-def createTodo():
-    # data = request.get_json(force=True)
-    db.todos.insert_one({'title': "todo title"})
+@app.route('/create_ms2query_result', methods=['GET', 'POST'])
+def createMs2QueryResult():
+    data = request.get_json(force=True)
+    db.ms2query_results.insert_one(data)
 
     return jsonify(
         status=True,
-        message='To-do saved successfully!'
+        message='Ms2query result saved successfully!'
     ), 201
 
-@app.route('/get_todos', methods=['GET', 'POST'])
-def getTodos():
-    # data = request.get_json(force=True)
-    _todos = db.todos.find()
+@app.route('/get_ms2query_results', methods=['GET'])
+def getMs2QueryResults():
+    _ms2query_results = db.ms2query_results.find()
 
     item = {}
     data = []
-    for todo in _todos:
+    for result in _ms2query_results:
         item = {
-            'id': str(todo['_id']),
-            'title': todo['title']
+            'id': str(result['_id']),
+            'timestamp': result['timestamp'],
+            'results': result['results']
         }
         data.append(item)
 
