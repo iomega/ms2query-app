@@ -2,15 +2,11 @@ from flask import Flask, jsonify, request
 import json
 import os
 from flask_pymongo import PyMongo
-# from pymongo import MongoClient
 # from ms2query import run_ms2query
 # from utils import csv2json
 
 app = Flask(__name__)
 
-# app.config["MONGO_URI"] = 'mongodb://' + os.environ['MONGODB_USERNAME'] + ':' + os.environ['MONGODB_PASSWORD'] + '@' + os.environ['MONGODB_HOSTNAME'] + ':27017/' + os.environ['MONGODB_DATABASE']
-# app.config["MONGO_URI"] = os.environ['MONGODB_URI_STRING']
-# client = MongoClient('mongodb://mongodb:27017/')
 mongodb_client = PyMongo(app, uri=os.environ['MONGODB_URI_STRING'])
 db = mongodb_client.db
 
