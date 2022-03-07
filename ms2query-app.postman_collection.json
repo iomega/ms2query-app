@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "a8a0d1d7-addb-4b87-8eba-d76b1aad15ac",
+		"name": "ms2query",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create_ms2query_result",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"timestamp\": 1646685012,\n    \"results\": [\n        {\n            \"\": \"0\",\n            \"parent_mass_query_spectrum\": \"327.11972354800923\",\n            \"ms2query_model_prediction\": \"1.0289692\",\n            \"parent_mass_analog\": \"327.119724\",\n            \"inchikey\": \"JNYKHFJDJZGZOI\",\n            \"spectrum_ids\": \"CCMSLIB00004721996\",\n            \"analog_compound_name\": \"MMV1110498\",\n            \"smiles\": \"FC(F)(F)C1=C(C(N2CCCCC2)=O)N(C=CC=C3OC)C3=N1\",\n            \"cf_kingdom\": \"Organic compounds\",\n            \"cf_superclass\": \"Organoheterocyclic compounds\",\n            \"cf_class\": \"Imidazopyridines\",\n            \"cf_subclass\": \"\",\n            \"cf_direct_parent\": \"Imidazopyridines\",\n            \"npc_class_results\": \"\",\n            \"npc_superclass_results\": \"Nicotinic acid alkaloids\",\n            \"npc_pathway_results\": \"Alkaloids\"\n        },\n        {\n            \"\": \"0\",\n            \"parent_mass_query_spectrum\": \"239.02572354800924\",\n            \"ms2query_model_prediction\": \"0.8862536\",\n            \"parent_mass_analog\": \"239.025724\",\n            \"inchikey\": \"DWVQVQMJQGSFRM\",\n            \"spectrum_ids\": \"CCMSLIB00004721997\",\n            \"analog_compound_name\": \"MMV553002\",\n            \"smiles\": \"CS(=O)(=O)CC1=Nc2ccccc2OC1=O\",\n            \"cf_kingdom\": \"Organic compounds\",\n            \"cf_superclass\": \"Organoheterocyclic compounds\",\n            \"cf_class\": \"Benzoxazines\",\n            \"cf_subclass\": \"\",\n            \"cf_direct_parent\": \"Benzoxazines\",\n            \"npc_class_results\": \"Simple coumarins\",\n            \"npc_superclass_results\": \"Coumarins\",\n            \"npc_pathway_results\": \"Shikimates and Phenylpropanoids\"\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5050/create_ms2query_result",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"create_ms2query_result"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_ms2query_results",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5050/get_ms2query_results",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5050",
+					"path": [
+						"get_ms2query_results"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
