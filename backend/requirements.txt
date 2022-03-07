@@ -1,4 +1,4 @@
-flask
+pip==21.2.4
+Flask==2.0.3
+Flask-PyMongo==2.3.0
 # ms2query==0.3.0
-pymongo
-flask-pymongo
