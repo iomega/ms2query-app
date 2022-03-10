@@ -3,6 +3,7 @@ import datetime
 import utils
 import csv
 import json
+from bson.objectid import ObjectId
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 from ms2query.run_ms2query import default_library_file_base_names, run_complete_folder
@@ -38,9 +39,10 @@ def getMs2QueryResults():
     data = []
     for result in _ms2query_results:
         item = {
-            'id': str(result['_id']),
+            '_id': str(result['_id']),
             'timestamp': result['timestamp'],
-            'results': result['results']
+            'results': result['results'],
+            # 'filename': result['filename']
         }
         data.append(item)
 
@@ -50,21 +52,24 @@ def getMs2QueryResults():
     )
 
 @app.route('/run_ms2query', methods=['GET', 'POST'])
-def readCsv():
+def runMs2Query():
     # data = request.get_json(force=True)
 
     # run ms2query 
     # run_ms2query()
 
+    filename = os.listdir('./ms2_spectra/results')[0]
+
     json_array = []
-    with open(r'./ms2_spectra/results/MMV_POSITIVE.csv', encoding='utf-8') as csvf: 
+    with open(r'./ms2_spectra/results/'+filename, encoding='utf-8') as csvf: 
         csv_reader = csv.DictReader(csvf) 
 
         for row in csv_reader: 
             json_array.append(row)
     
     db.ms2query_results.insert_one({
-        "timestamp": datetime.now(),
+        "timestamp": datetime.datetime.now(),
+        "filename": filename,
         "results": json_array
     })
 
@@ -76,6 +81,35 @@ def readCsv():
         status=True,
         message='Ms2query result saved successfully!'
     ), 201
+
+@app.route('/delete_ms2query_result/<id>', methods=['GET', 'POST'])
+def deleteMs2QueryResult(id):
+    db.ms2query_results.delete_one({"_id": ObjectId(id)})
+
+    return jsonify(
+        status=True,
+        message='Ms2query result deleted!'
+    ), 201
+
+@app.route('/find_ms2query_result/<id>', methods=['GET', 'POST'])
+def findMs2QueryResult(id):
+    _ms2query_results = db.ms2query_results.find({"_id": ObjectId(id)})
+
+    item = {}
+    data = []
+    for result in _ms2query_results:
+        item = {
+            'id': str(result['_id']),
+            'timestamp': result['timestamp'],
+            'results': result['results'],
+            # 'filename': result['filename']
+        }
+        data.append(item)
+
+    return jsonify(
+        status=True,
+        data=data
+    )
 
 # @app.route('/get_results/<filename>')
 # def results(filename):
