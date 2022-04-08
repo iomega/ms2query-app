@@ -14,7 +14,16 @@
         <div class="header-left">ms2query | App</div>
         <div class="header-right">
             <Button id="about-button" color="white">About</Button>
-            <Button id="contact-button" color="white">GitHub</Button>
+            <Button
+                id="github-button"
+                color="white"
+                on:click="{() =>
+                    window
+                        .open(
+                            'https://github.com/iomega/ms2query-app',
+                            '_blank'
+                        )
+                        .focus()}">GitHub</Button>
         </div>
     </div>
 
