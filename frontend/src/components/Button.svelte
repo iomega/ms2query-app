@@ -4,23 +4,46 @@
     const dispatch = createEventDispatcher();
 
     export let id: string;
+    export let color: "white" | "black" | "blue";
 </script>
 
-<button id="{id}" on:click="{() => dispatch('click')}">
+<button id="{id}" class="{color}" on:click="{() => dispatch('click')}">
     <slot />
 </button>
 
 <style lang="scss">
     button {
-        padding: 0.5rem;
+        font-family: "IBM Plex Mono", monospace;
+        padding: 0.75rem;
         cursor: pointer;
-        background-color: #003f63;
         border: none;
         border-radius: 0.2rem;
-        color: #d9d9d9;
 
-        &:hover {
-            background-color: lighten(#003f63, 10%);
+        &.white {
+            background-color: #ffffff;
+            color: #000000;
+
+            &:hover {
+                background-color: darken(#ffffff, 25%);
+            }
+        }
+
+        &.black {
+            background-color: #000000;
+            color: #ffffff;
+
+            &:hover {
+                background-color: lighten(#000000, 75%);
+            }
+        }
+
+        &.blue {
+            background-color: #003f63;
+            color: #d9d9d9;
+
+            &:hover {
+                background-color: lighten(#003f63, 10%);
+            }
         }
     }
 </style>

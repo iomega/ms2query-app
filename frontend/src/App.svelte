@@ -1,87 +1,45 @@
 <script lang="ts">
-    import Sidebar from "./components/Sidebar.svelte";
     import Box from "./components/Box.svelte";
-    import ResultsTable from "./components/ResultsTable.svelte";
-    import Input from "./components/Input.svelte";
-    import { getResults } from "./api/fetch.api";
-    import { fade } from "svelte/transition";
     import Button from "./components/Button.svelte";
+    import WelcomeView from "./views/WelcomeView.svelte";
+    import AnalysisView from "./views/AnalysisView.svelte";
+    import ProcessView from "./views/ProcessView.svelte";
+    import RunView from "./views/RunView.svelte";
 
-    let tableItems = [];
-    $: console.log("tableItems: ", tableItems);
-
-    let searchKeyword = "";
-
-    $: tableItemsSearched = tableItems.filter((item) =>
-        searchKeyword.length > 0
-            ? Object.values(item).join(",").includes(searchKeyword)
-            : true
-    );
-
-    const getDataFromApi = async () => {
-        const response = await getResults();
-        const data = await response.json();
-
-        tableItems = data.map((item) => {
-            return {
-                ...item,
-            };
-        });
-    };
-
-    let files: any[] = [];
-    const getLocalData = async () => {
-        const file = files[0];
-
-        tableItems = JSON.parse(await file.text());
-    };
+    let activeView: "welcome" | "run" | "process" | "analysis" = "welcome";
 </script>
 
 <main>
-    <Sidebar />
+    <div class="header">
+        <div class="header-left">ms2query | App</div>
+        <div class="header-right">
+            <Button id="about-button" color="white">About</Button>
+            <Button id="contact-button" color="white">GitHub</Button>
+        </div>
+    </div>
 
     <div class="content">
-        <Box>
-            {#if tableItems.length === 0}
-                <div class="upload-area">
-                    <h1>
-                        Um Daten anzeigen zu lassen, wählen Sie eine der beiden
-                        Optionen!
-                    </h1>
+        {#if activeView === "welcome"}
+            <WelcomeView on:click="{({ detail }) => (activeView = detail)}" />
 
-                    <div>
-                        <Button
-                            id="get-data-button"
-                            on:click="{() => getDataFromApi()}">
-                            Daten von API abfragen
-                        </Button>
-                    </div>
-
-                    <h2>oder</h2>
-
-                    <div>
-                        <label for="file-upload">
-                            Lokale JSON-Datei laden:
-                        </label>
-                        <input
-                            id="file-upload"
-                            type="file"
-                            bind:files
-                            on:change="{() => getLocalData()}" />
-                    </div>
-                    <div class="no-data-placeholder">
-                        <img
-                            src="../src/assets/Artificial Intelligence_Monochromatic.png"
-                            alt="" />
-                    </div>
-                </div>
-            {:else}
-                <div class="table-box" transition:fade>
-                    <Input bind:value="{searchKeyword}" label="Suche" />
-                    <ResultsTable items="{tableItemsSearched}" />
-                </div>
-            {/if}
-        </Box>
+            <!-- <div class="illustration">
+                <img
+                    src="../src/assets/Artificial Intelligence_Monochromatic.png"
+                    alt="" />
+            </div> -->
+        {:else if activeView === "run"}
+            <Box on:close="{() => (activeView = 'welcome')}">
+                <RunView />
+            </Box>
+        {:else if activeView === "process"}
+            <Box on:close="{() => (activeView = 'welcome')}">
+                <ProcessView />
+            </Box>
+        {:else if activeView === "analysis"}
+            <Box on:close="{() => (activeView = 'welcome')}">
+                <AnalysisView />
+            </Box>
+        {/if}
     </div>
 </main>
 
@@ -90,50 +48,51 @@
     :global(body) {
         padding: 0;
         margin: 0;
-        background-color: #f0f0f0;
+        color: #3f3f3f;
+        background-color: #ffffff;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
             Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-family: "IBM Plex Mono", monospace;
     }
 
-    $sidebarWidth: 250px;
-    :global(.sidebar) {
-        width: $sidebarWidth;
+    main {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .header {
+        flex: 0;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        height: 100px;
+
+        .header-right {
+            display: flex;
+            gap: 10px;
+        }
     }
 
     .content {
+        flex: 1;
         box-sizing: border-box;
-        margin-left: $sidebarWidth;
         padding: 30px;
-        height: 100vh;
-        color: #353d40;
 
-        .header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .upload-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            text-align: center;
-        }
-
-        .no-data-placeholder {
+        .illustration {
+            margin-top: 3rem;
             text-align: center;
             img {
                 height: 30rem;
                 width: 30rem;
             }
-        }
-
-        .table-box {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            text-align: left;
         }
     }
 
