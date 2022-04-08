@@ -44,5 +44,28 @@
         .content {
             flex: 1;
         }
+
+        /* Works on Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #f0f0f0 #000000;
+
+        /* Works on Chrome, Edge, and Safari */
+        &::-webkit-scrollbar {
+            width: 15px;
+            border-radius: 50%;
+        }
+
+        &::-webkit-scrollbar-track {
+            // background: #e9e9e9;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin: 3px 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: #000000;
+            border-radius: 20px;
+            border: 2px solid #f0f0f0;
+        }
     }
 </style>
