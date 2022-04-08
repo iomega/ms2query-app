@@ -1,6 +1,6 @@
 <script lang="ts">
     interface TableItem {
-        match_parent_mass: any;
+        analog_compound_name: any;
         smiles: any;
         cf_superclass: any;
         cf_class: any;
@@ -12,7 +12,7 @@
 
 <div class="results-table">
     <div class="table-head">No.</div>
-    <div class="table-head">match_parent_mass</div>
+    <div class="table-head">analog_compound_name</div>
     <div class="table-head">smiles</div>
     <div class="table-head">cf_superclass</div>
     <div class="table-head">cf_class</div>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="table-data left">
-            {item.match_parent_mass}
+            {item.analog_compound_name}
         </div>
 
         <div class="table-data left">
@@ -51,9 +51,8 @@
     .results-table {
         display: grid;
         grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr;
-        max-height: 80vh;
         overflow: auto;
-        // border: 1px solid #003f638a;
+        border: 1px solid #000000;
         border-radius: 12px;
 
         .table-head,
@@ -62,7 +61,7 @@
         }
 
         .table-head {
-            background-color: #003f63;
+            background-color: #000000;
             color: white;
             position: sticky;
             top: 0;

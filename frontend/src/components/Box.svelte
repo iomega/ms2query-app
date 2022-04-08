@@ -20,7 +20,9 @@
             Close view
         </Button>
     </div>
-    <slot />
+    <div class="content">
+        <slot />
+    </div>
 </div>
 
 <style lang="scss">
@@ -31,9 +33,16 @@
         height: 100%;
         box-sizing: border-box;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
 
         .header {
             text-align: right;
+            flex: 0;
+        }
+
+        .content {
+            flex: 1;
         }
     }
 </style>
