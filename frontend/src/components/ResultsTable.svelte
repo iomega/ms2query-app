@@ -68,7 +68,7 @@
         }
 
         .table-data {
-            border-bottom: 1px solid #003f638a;
+            border-bottom: 1px solid #000000;
             display: flex;
             align-items: center;
 

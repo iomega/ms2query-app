@@ -94,6 +94,8 @@
 
 <style lang="scss">
     .analysis-view {
+        height: 100%;
+        box-sizing: border-box;
         padding: 30px;
 
         .preview-items {
@@ -116,10 +118,15 @@
         }
 
         .table-box {
+            height: 100%;
             display: flex;
             flex-direction: column;
             gap: 2.5rem;
             text-align: left;
+
+            :global(.results-table) {
+                flex: 1;
+            }
         }
     }
 </style>

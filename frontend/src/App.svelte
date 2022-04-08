@@ -85,6 +85,7 @@
         flex: 1;
         box-sizing: border-box;
         padding: 30px;
+        min-height: 0;
 
         .illustration {
             margin-top: 3rem;
