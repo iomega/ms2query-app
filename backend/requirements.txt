@@ -2,3 +2,4 @@ pip==21.2.4
 ms2query==0.2.3
 Flask==2.0.3
 Flask-PyMongo==2.3.0
+rdkit-pypi

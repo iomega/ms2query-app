@@ -3,11 +3,15 @@ import datetime
 import utils
 import csv
 import json
+import re
 from bson.objectid import ObjectId
 from flask import Flask, jsonify, request
 from flask_pymongo import PyMongo
 from ms2query.run_ms2query import default_library_file_base_names, run_complete_folder
 from ms2query.ms2library import create_library_object_from_one_dir
+from rdkit import Chem
+from rdkit.Chem.Draw import rdMolDraw2D
+
 
 # init flask app
 app = Flask(__name__)
@@ -95,12 +99,18 @@ def ms2query_to_database():
         for row in csv_reader: 
             json_array_analog_search.append(row)
 
+    for index, item in json_array_analog_search:
+        json_array_analog_search[index] = create_molecule_svg(item["smiles"])
+
     json_array_library_search = []
     with open(r'./ms2_spectra/results/library_search/'+filename, encoding='utf-8') as csvf: 
         csv_reader = csv.DictReader(csvf) 
 
         for row in csv_reader: 
             json_array_library_search.append(row)
+
+    for index, item in json_array_library_search:
+        json_array_library_search[index] = create_molecule_svg(item["smiles"])
     
     db.ms2query_results.insert_one({
         "timestamp": datetime.datetime.now(),
@@ -152,3 +162,23 @@ def find_ms2query_result(id):
 
 # if __name__ == '__main__':
 #     app.run(host="0.0.0.0", port=5000)
+
+pattern = re.compile("<\?xml.*\?>")
+
+def create_molecule_svg(mol, molSize=(450,150), kekulize=True):
+    mc = Chem.MolFromSmiles(mol)
+    if kekulize:
+        try:
+            Chem.Kekulize(mc)
+        except:
+            mc = Chem.Mol(mol.ToBinary())
+    if not mc.GetNumConformers():
+        Chem.rdDepictor.Compute2DCoords(mc)
+
+    drawer = rdMolDraw2D.MolDraw2DSVG(*molSize)
+    drawer.DrawMolecule(mc)
+    drawer.FinishDrawing()
+    svg = drawer.GetDrawingText().replace('svg:', '')
+    svg = re.sub(pattern, '', svg)
+    
+    return svg
