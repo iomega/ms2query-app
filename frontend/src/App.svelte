@@ -5,15 +5,24 @@
     import AnalysisView from "./views/AnalysisView.svelte";
     import ProcessView from "./views/ProcessView.svelte";
     import RunView from "./views/RunView.svelte";
+    import AboutView from "./views/AboutView.svelte";
 
-    let activeView: "welcome" | "run" | "process" | "analysis" = "welcome";
+    let activeView: "welcome" | "run" | "process" | "analysis" | "about" =
+        "welcome";
 </script>
 
 <main>
     <div class="header">
-        <div class="header-left">ms2query | App</div>
+        <div class="header-left" on:click="{() => (activeView = 'welcome')}">
+            ms2query | App
+        </div>
         <div class="header-right">
-            <Button id="about-button" color="white">About</Button>
+            <Button
+                id="about-button"
+                color="white"
+                on:click="{() => (activeView = 'about')}">
+                About
+            </Button>
             <Button
                 id="github-button"
                 color="white"
@@ -23,7 +32,9 @@
                             'https://github.com/iomega/ms2query-app',
                             '_blank'
                         )
-                        .focus()}">GitHub</Button>
+                        .focus()}">
+                GitHub
+            </Button>
         </div>
     </div>
 
@@ -47,6 +58,10 @@
         {:else if activeView === "analysis"}
             <Box on:close="{() => (activeView = 'welcome')}">
                 <AnalysisView />
+            </Box>
+        {:else if activeView === "about"}
+            <Box on:close="{() => (activeView = 'welcome')}">
+                <AboutView />
             </Box>
         {/if}
     </div>
@@ -83,6 +98,10 @@
         padding: 20px 30px;
         box-sizing: border-box;
         height: 100px;
+
+        .header-left {
+            cursor: pointer;
+        }
 
         .header-right {
             display: flex;
