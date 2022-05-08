@@ -28,8 +28,8 @@
         <FilePond
             bind:this="{pond}"
             name="{name}"
-            server="/api"
-            allowMultiple="{true}"
+            server="/api/upload"
+            allowMultiple="{false}"
             oninit="{handleInit}"
             onaddfile="{handleAddFile}" />
     </div>

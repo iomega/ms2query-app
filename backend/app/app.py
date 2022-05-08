@@ -150,5 +150,14 @@ def find_ms2query_result(id):
         data=data
     )
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    uploaded_file = request.files['filepond']
+
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join("./ms2_spectra", uploaded_file.filename))
+
+    return "success"
+
 # if __name__ == '__main__':
 #     app.run(host="0.0.0.0", port=5000)
