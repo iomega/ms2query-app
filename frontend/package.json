@@ -21,6 +21,8 @@
         "vite": "^2.6.4"
     },
     "dependencies": {
-        "node-sass": "^7.0.1"
+        "filepond": "^4.30.3",
+        "node-sass": "^7.0.1",
+        "svelte-filepond": "^0.2.0"
     }
 }
